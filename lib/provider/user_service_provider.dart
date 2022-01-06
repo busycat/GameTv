@@ -6,12 +6,17 @@ import 'package:game_tv/models/user.dart';
 class UserService with ChangeNotifier {
   static final LoginService _loginService = MockLoginService();
   User? _user;
+  String? error;
   Future<void> login(String user, String password) async {
-    final userObj = await _loginService.login(user, password);
+    error = null;
+    try {
+      final userObj = await _loginService.login(user, password);
 
-    /// TODO Save Info to Local/Persisting Storage
-    _user = userObj;
-
+      /// TODO Save Info to Local/Persisting Storage
+      _user = userObj;
+    } on AppException catch (e) {
+      error = e.error;
+    }
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
