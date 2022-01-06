@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
@@ -7,6 +6,9 @@ class Login extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Text('Hello World');
+    return Scaffold(
+        body: SafeArea(
+      child: Text('Login Page'),
+    ));
   }
 }
