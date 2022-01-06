@@ -3,7 +3,7 @@ name: Check On Push
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   prebuild:
     name: Prebuild and Testing
