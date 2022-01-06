@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_tv/pages/home/home_page.dart';
 import 'package:game_tv/pages/index.dart';
 import 'package:game_tv/provider/user_service_provider.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/login',
-      routes: {'/login': (ctx) => Login()},
+      routes: {
+        '/login': (ctx) => Login(),
+        '/home': (ctx) => HomePage(),
+      },
     );
   }
 }
