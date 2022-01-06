@@ -6,9 +6,30 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text('Welcome Home'),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            expandedHeight: 200,
+            actions: const [Text('Action')],
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.all(50),
+              child: Text('Recommended to you'),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate.fixed([
+              Container(
+                padding: EdgeInsets.all(50),
+                child: Text('Hello'),
+              )
+            ]),
+          )
+        ],
+      ),
     );
   }
 }
