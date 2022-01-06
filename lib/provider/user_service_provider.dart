@@ -28,8 +28,10 @@ class UserService with ChangeNotifier {
   }
 
   bool get isAuthenticated => _user?.token.isNotEmpty ?? false;
-  String get username => _user?.name ?? '';
+  String get username => isAuthenticated
+      ? _user!.name
+      : throw AppException(error: 'Invalid State', code: 0);
   int get age => isAuthenticated
       ? _user!.age
-      : throw AppException(error: 'error', code: 0);
+      : throw AppException(error: 'Invalid State', code: 0);
 }

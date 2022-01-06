@@ -4,8 +4,10 @@ import 'package:game_tv/provider/user_service_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => UserService(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => UserService()),
+    ],
     child: const MyApp(),
   ));
 }

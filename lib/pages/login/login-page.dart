@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:game_tv/provider/user_service_provider.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -7,8 +9,20 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Text('Login Page'),
-    ));
+        body: Consumer<UserService>(builder: (context, userService, child) {
+      return SafeArea(
+        child: Column(
+          children: [
+            Text('Login Page'),
+            Text(userService.isAuthenticated ? 'LoggedIn' : 'Not Loggedin'),
+            TextButton(
+                onPressed: () {
+                  userService.login('123', '456');
+                },
+                child: Text('Login'))
+          ],
+        ),
+      );
+    }));
   }
 }
