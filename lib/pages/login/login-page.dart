@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:game_tv/abstraction/app_exception.dart';
 import 'package:game_tv/provider/user_service_provider.dart';
 import 'package:provider/provider.dart';
 
-class Login extends StatefulWidget {
+class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  String? error;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -21,18 +14,11 @@ class _LoginState extends State<Login> {
         child: Column(
           children: [
             Text('Login Page'),
-            Text('Error : ' + (error ?? 'None')),
+            Text('Error : ' + (userService.error ?? 'None')),
             Text(userService.isAuthenticated ? 'LoggedIn' : 'Not Loggedin'),
             TextButton(
                 onPressed: () {
-                  try {
-                    userService.login('123', '456');
-                  } on AppException catch (e) {
-                    setState(() {
-                      error = e.error;
-                    });
-                    print('XXXXXXXXXXXXXXXX');
-                  }
+                  userService.login('123', '456');
                 },
                 child: Text('Login'))
           ],
