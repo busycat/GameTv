@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:game_tv/configs/routes.dart';
 import 'package:game_tv/provider/user_service_provider.dart';
 import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
+  static const route = '/login';
+
   const Login({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -14,7 +15,7 @@ class Login extends StatelessWidget {
       onLogin() async {
         await userService.login('123', '456');
         if (userService.isAuthenticated) {
-          Navigator.of(context).pushNamed(homePageRoute);
+          Navigator.of(context).pushNamed(Login.route);
         }
       }
 
