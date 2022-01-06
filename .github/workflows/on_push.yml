@@ -10,12 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v1
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - name: Install Packages
+      - name: Install dependencies
         run: flutter pub get
-      - name: Linting
+      - name: Lint
         run: dart format --output=none --set-exit-if-changed .
       - name: Analyze Code
         run: dart analyze --fatal-infos
