@@ -21,12 +21,15 @@ class HomePage extends StatelessWidget {
             ),
           ),
           SliverList(
-            delegate: SliverChildListDelegate.fixed([
-              Container(
-                padding: EdgeInsets.all(50),
-                child: Text('Hello'),
-              )
-            ]),
+            delegate: SliverChildBuilderDelegate(
+              (a, b) {
+                return Container(
+                  padding: EdgeInsets.all(50),
+                  child: Text('Hello'),
+                );
+              },
+              childCount: 10,
+            ),
           )
         ],
       ),
