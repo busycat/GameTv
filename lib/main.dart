@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:game_tv/pages/home/home_page.dart';
 import 'package:game_tv/pages/index.dart';
 import 'package:game_tv/provider/user_service_provider.dart';
 import 'package:provider/provider.dart';
@@ -20,12 +19,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: context.read<UserService>().isAuthenticated
-          ? HomePage.route
-          : Login.route,
+      debugShowCheckedModeBanner: false,
+      initialRoute: SlashScreen.route,
       routes: {
         Login.route: (ctx) => Login(),
         HomePage.route: (ctx) => HomePage(),
+        SlashScreen.route: (ctx) => SlashScreen(),
       },
     );
   }

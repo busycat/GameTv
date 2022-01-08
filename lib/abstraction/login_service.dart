@@ -3,17 +3,29 @@ import 'package:game_tv/models/user.dart';
 
 abstract class LoginService {
   Future<User> login(String user, String password);
-  Future<void> logout(String token);
+  Future<void> logout();
 }
 
 /// Should be private, But intentionally made public to reuse later
 final Map<String, String> credentials = {
-  '9898989898': 'password123',
   '9876543210': 'password123',
+  '9898989898': 'password123',
 };
 final Map<String, User> _users = {
-  '9898989898': const User(name: 'Simon Baker', age: 25, token: '1234'),
-  '9876543210': const User(name: 'Dikki  Hanger', age: 22, token: '1234'),
+  '9898989898': const User(
+    name: 'Simon Baker',
+    age: 25,
+    token: '1234',
+    rating: 2250,
+    title: 'Flyingwolf',
+  ),
+  '9876543210': const User(
+    name: 'Dikki  Hanger',
+    age: 22,
+    token: '1234',
+    rating: 2250,
+    title: 'Flyingwolf',
+  ),
 };
 
 class MockLoginService extends LoginService {
@@ -36,6 +48,9 @@ class MockLoginService extends LoginService {
   }
 
   @override
-  Future<void> logout(String token) =>
-      Future<void>.delayed(Duration(seconds: 1));
+  Future<void> logout() async {
+    Future<void>.delayed(Duration(seconds: 1));
+  }
 }
+
+final LoginService loginService = MockLoginService();

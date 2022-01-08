@@ -24,7 +24,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Consumer<UserService>(builder: (context, userService, child) {
-      final mq = MediaQuery.of(context).size.width;
+      final width = MediaQuery.of(context).size.width;
 
       onLogin() async {
         await userService.login(
@@ -47,7 +47,7 @@ class _LoginState extends State<Login> {
                 ),
                 child: Image(
                   image: AssetImage('assets/images/game.tv-logo.png'),
-                  width: 0.5 * mq,
+                  width: 0.5 * width,
                 ),
               ),
               Text('Login Page'),
