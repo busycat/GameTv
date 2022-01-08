@@ -4,6 +4,8 @@ analyzer:
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
+  errors:
+    argument_type_not_assignable: ignore
 
 exclude:
   - 'flutter_aad/*'
@@ -21,5 +23,4 @@ linter:
     test_types_in_equals: true
     throw_in_finally: true
     unnecessary_statements: true
-    argument_type_not_assignable: false
     prefer_const_constructors: false

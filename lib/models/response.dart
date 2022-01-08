@@ -38,8 +38,8 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         cursor: json['cursor'] as String,
         tournamentCount: json['tournament_count'],
-        tournaments: List<Tournament>.from(
-            json['tournaments'].map((x) => Tournament.fromJson(x))),
+        tournaments: List<Tournament>.from(json['tournaments'].map(
+            (dynamic x) => Tournament.fromJson(x as Map<String, dynamic>))),
         isLastBatch: json['is_last_batch'],
       );
 }
@@ -101,7 +101,7 @@ class Tournament {
   bool tournamentEnded;
   String tournamentEndDate;
   bool areRandomTeamsAllowed;
-  int registeredTeams;
+  int? registeredTeams;
   String adminLocale;
   String regEndDate;
   String startDate;
@@ -113,7 +113,7 @@ class Tournament {
   String pwaUrl;
   TournamentType tournamentType;
   String geo;
-  String maxLevelId;
+  String? maxLevelId;
   bool isPasswordRequired;
   String name;
   MatchStyle matchStyle;
@@ -128,7 +128,7 @@ class Tournament {
   bool isLevelsEnabled;
   bool indexPage;
   String dynamicAppUrl;
-  String minLevelId;
+  String? minLevelId;
   String gameFormat;
   String details;
   String gameIconUrl;
@@ -151,8 +151,7 @@ class Tournament {
         tournamentEnded: json['tournament_ended'],
         tournamentEndDate: json['tournament_end_date'],
         areRandomTeamsAllowed: json['are_random_teams_allowed'],
-        registeredTeams:
-            json['registered_teams'] == null ? null : json['registered_teams'],
+        registeredTeams: json['registered_teams'] ?? 0,
         adminLocale: json['admin_locale'],
         regEndDate: json['reg_end_date'],
         startDate: json['start_date'],
@@ -161,10 +160,10 @@ class Tournament {
         tournamentUrl: json['tournament_url'],
         prizes: json['prizes'],
         matchStyleType: json['match_style_type'],
-        pwaUrl: json['pwa_url'] == null ? null : json['pwa_url'],
+        pwaUrl: json['pwa_url'] ?? '',
         tournamentType: tournamentTypeValues.map[json['tournament_type']],
         geo: json['geo'],
-        maxLevelId: json['max_level_id'] == null ? null : json['max_level_id'],
+        maxLevelId: json['max_level_id'] ?? '',
         isPasswordRequired: json['is_password_required'],
         name: json['name'],
         matchStyle: matchStyleValues.map[json['match_style']],
@@ -179,7 +178,7 @@ class Tournament {
         isLevelsEnabled: json['is_levels_enabled'],
         indexPage: json['index_page'],
         dynamicAppUrl: json['dynamic_app_url'],
-        minLevelId: json['min_level_id'] == null ? null : json['min_level_id'],
+        minLevelId: json['min_level_id'] ?? '',
         gameFormat: json['game_format'],
         details: json['details'],
         gameIconUrl: json['game_icon_url'],
@@ -194,26 +193,25 @@ class Tournament {
         adminUsername: json['admin_username'],
         gameName: json['game_name'],
         streamUrl: json['stream_url'],
-        winnersCount:
-            json['winners_count'] == null ? null : json['winners_count'],
+        winnersCount: json['winners_count'] ?? 0,
       );
 }
 
-enum MatchStyle { LOBBY, BRACKETS }
+enum MatchStyle { lobby, brackets }
 
 final matchStyleValues =
-    EnumValues({'brackets': MatchStyle.BRACKETS, 'lobby': MatchStyle.LOBBY});
+    EnumValues({'brackets': MatchStyle.brackets, 'lobby': MatchStyle.lobby});
 
-enum Status { PUBLISHED }
+enum Status { published }
 
-final statusValues = EnumValues({'published': Status.PUBLISHED});
+final statusValues = EnumValues({'published': Status.published});
 
-enum TournamentType { DISCORD, WEB, APP }
+enum TournamentType { discord, web, app }
 
 final tournamentTypeValues = EnumValues({
-  'app': TournamentType.APP,
-  'discord': TournamentType.DISCORD,
-  'web': TournamentType.WEB
+  'app': TournamentType.app,
+  'discord': TournamentType.discord,
+  'web': TournamentType.web
 });
 
 class EnumValues<T> {
