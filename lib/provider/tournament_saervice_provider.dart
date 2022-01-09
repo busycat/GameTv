@@ -9,12 +9,14 @@ abstract class TournamentService with ChangeNotifier {
   int get count;
   bool get isLast;
   bool get isLoading;
+  String? get error;
 }
 
 enum _Status { initial, loading, loaded, allLoaded }
 
 class HttpTournamentService extends TournamentService {
   String cursor = '';
+  String? _error;
   _Status status = _Status.initial;
   List<Tournament> t = [];
   @override
@@ -27,15 +29,19 @@ class HttpTournamentService extends TournamentService {
   @override
   Future<void> fetchList() async {
     if (status != _Status.loading && status != _Status.allLoaded) {
-      status = _Status.loading;
-      final response = await http.get(Uri.parse(
-        'https://tournaments-dot-game-tv-prod.uc.r.appspot.com/tournament/api/tournaments_list_v2?lmit=10&status=all&cursor=$cursor',
-      ));
+      try {
+        status = _Status.loading;
+        final response = await http.get(Uri.parse(
+          'https://tournaments-dot-game-tv-prod.uc.r.appspot.com/tournament/api/tournaments_list_v2?lmit=10&status=all&cursor=$cursor',
+        ));
 
-      final parsed = recommendationDtoFromJson(response.body);
-      t.addAll(parsed.data.tournaments);
-      cursor = parsed.data.cursor;
-      status = _Status.loaded;
+        final parsed = recommendationDtoFromJson(response.body);
+        t.addAll(parsed.data.tournaments);
+        cursor = parsed.data.cursor;
+        status = _Status.loaded;
+      } catch (e) {
+        _error = e.toString();
+      }
     }
   }
 
@@ -50,4 +56,7 @@ class HttpTournamentService extends TournamentService {
   bool get isLast => status == _Status.allLoaded;
   @override
   bool get isLoading => status == _Status.loading;
+
+  @override
+  String? get error => _error;
 }

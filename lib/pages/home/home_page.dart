@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_tv/components/card.dart';
+import 'package:game_tv/components/insights.dart';
 import 'package:game_tv/pages/index.dart';
 import 'package:game_tv/provider/tournament_saervice_provider.dart';
 import 'package:game_tv/provider/user_service_provider.dart';
@@ -44,60 +45,61 @@ class _HomePageState extends State<HomePage> {
 
     List<Widget> prefix = [
       Container(
-          padding: EdgeInsets.all(16),
-          child: Row(
-            children: [
-              ClipOval(
-                child: Image(image: NetworkImage(user.image), width: 100),
-              ),
-              VS(2),
-              Flexible(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      user.name,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    HS(2),
-                    Container(
-                      constraints: BoxConstraints(maxWidth: 136),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          border: Border.all(
-                              color: Colors.primaries.first, width: 2)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            user.rating.toString(),
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.primaries.first),
-                            overflow: TextOverflow.ellipsis,
+        padding: EdgeInsets.all(16),
+        child: Row(
+          children: [
+            ClipOval(
+              child: Image(image: NetworkImage(user.image), width: 100),
+            ),
+            VS(2),
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    user.name,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  HS(2),
+                  Container(
+                    constraints: BoxConstraints(maxWidth: 136),
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        border: Border.all(
+                            color: Colors.primaries.first, width: 2)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          user.rating.toString(),
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.primaries.first),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        VS(1),
+                        Text(
+                          'Elo Rating',
+                          style: TextStyle(
+                            fontSize: 12,
                           ),
-                          VS(1),
-                          Text(
-                            'Elo Rating',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
+      InsightsCard(),
+      HS(2),
       Container(
         padding: EdgeInsets.symmetric(
           vertical: 10,
@@ -108,10 +110,10 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 16,
+            fontSize: 18,
           ),
         ),
-      )
+      ),
     ];
     int initialItems = prefix.length;
 
@@ -119,14 +121,13 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         appBar: AppBar(
           toolbarHeight: 40,
-          actions: [
-            TextButton(
-              child: Text('Logout'),
-              onPressed: () {
-                userService.logout(logoutCb);
-              },
-            )
-          ],
+          leading: IconButton(
+            color: Colors.black,
+            icon: const Icon(Icons.list),
+            onPressed: () {
+              userService.logout(logoutCb);
+            },
+          ),
           title: Text(
             user.title,
             style: TextStyle(color: Colors.black, fontSize: 16),
@@ -136,78 +137,50 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
         ),
         body: SafeArea(
-          child: ListView.builder(
-              controller: _scrollController,
-              itemCount: ts.count + initialItems + 1,
-              itemBuilder: (ctx, i) {
-                if (i < initialItems) return prefix[i];
-                if (i == ts.count + initialItems) {
-                  if (ts.isLoading) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 8,
-                      ),
-                      child: LinearProgressIndicator(),
-                    );
-                  }
-                  if (ts.isLast) {
-                    return Container(
-                      padding: EdgeInsets.all(16),
-                      child: Text('Reached End of list'),
-                    );
-                  }
+          child: ts.error != null && ts.error!.isNotEmpty
+              ? Center(
+                  child: Text(ts.error!),
+                )
+              : ListView.builder(
+                  controller: _scrollController,
+                  itemCount: ts.count + initialItems + 1,
+                  itemBuilder: (ctx, i) {
+                    if (i < initialItems) return prefix[i];
+                    if (i == ts.count + initialItems) {
+                      if (ts.isLoading) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 40,
+                            vertical: 8,
+                          ),
+                          child: LinearProgressIndicator(),
+                        );
+                      }
+                      if (ts.isLast) {
+                        return Container(
+                          padding: EdgeInsets.all(16),
+                          child: Text('Reached End of list'),
+                        );
+                      }
+                      return Container(
+                        padding: EdgeInsets.all(16),
+                        child: TextButton(
+                          child: Text('Click to load'),
+                          onPressed: () {
+                            updateList();
+                          },
+                        ),
+                      );
+                      // return HS(5);
+                    }
 
-                  return Container(
-                    padding: EdgeInsets.all(16),
-                    child: TextButton(
-                      child: Text('Click to load'),
-                      onPressed: () {
-                        updateList();
-                      },
-                    ),
-                  );
-                  // return HS(5);
-                }
-
-                return RecommendedCard(
-                  tournament: ts.getItem(i - initialItems),
-                );
-              }),
+                    return RecommendedCard(
+                      tournament: ts.getItem(i - initialItems),
+                    );
+                  }),
         ),
       );
     });
-
-    // Column(children: [
-    //   AppBar(
-    //     actions: [
-    //       TextButton(
-    //         child: Text('Logout'),
-    //         onPressed: () {
-    //           userService.logout(logoutCb);
-    //         },
-    //       )
-    //     ],
-    //     title: Text(user.title),
-    //     centerTitle: true,
-    //     backgroundColor: Colors.white,
-    //   ),
-    //   Container(
-    //     padding: EdgeInsets.symmetric(
-    //       vertical: 10,
-    //       horizontal: 10,
-    //     ),
-    //     child: Text(
-    //       'Recommended for you',
-    //       style: TextStyle(
-    //         color: Colors.black,
-    //         fontWeight: FontWeight.bold,
-    //         fontSize: 16,
-    //       ),
-    //     ),
-    //   ),
-    //   ...getTournamentList(context),
-    // ]),
   }
 
   Future<void> updateList() async {
