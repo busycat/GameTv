@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
   final _scrollController = ScrollController();
   late Future<void> Function() fetchList;
   late UserService userService;
-  var random = 1;
   @override
   void initState() {
     super.initState();
@@ -184,13 +183,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> updateList() async {
-    setState(() {
-      random++;
-    });
+    setState(() {});
     await fetchList();
-    setState(() {
-      random++;
-    });
+    setState(() {});
   }
 
   @override

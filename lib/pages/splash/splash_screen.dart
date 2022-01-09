@@ -38,7 +38,7 @@ class SlashScreen extends StatelessWidget {
       checkLogin(context);
       return Container(
         alignment: Alignment.center,
-        decoration: BoxDecoration(color: Colors.grey.shade900),
+        // decoration: BoxDecoration(color: Colors.grey.shade900),
         child: Image(
           image: AssetImage('assets/images/game.tv-logo.png'),
           width: 0.6 * mq.size.width,

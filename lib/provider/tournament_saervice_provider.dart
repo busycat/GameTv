@@ -42,12 +42,15 @@ class HttpTournamentService extends TournamentService {
       } catch (e) {
         _error = e.toString();
       }
+      notifyListeners();
     }
   }
 
   @override
   Tournament getItem(int i) {
     if (i >= 0 && i < count) return t[i];
+
+    /// For debugging
     return Tournament(
         name: 'Invalid Index', coverUrl: '', gameName: 'Exception');
   }

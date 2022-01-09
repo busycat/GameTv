@@ -10,9 +10,19 @@ abstract class LoginService {
 final Map<String, String> credentials = {
   '9876543210': 'password123',
   '9898989898': 'password123',
+  '123': '123',
 };
 final Map<String, UserProfile> _users = {
   '9898989898': const UserProfile(
+    name: 'Simon Baker',
+    age: 25,
+    token: '1234',
+    rating: 2250,
+    title: 'Flyingwolf',
+    id: '9898989898',
+    image: 'https://thispersondoesnotexist.com/image',
+  ),
+  '123': const UserProfile(
     name: 'Simon Baker',
     age: 25,
     token: '1234',
