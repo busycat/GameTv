@@ -7,3 +7,4 @@
 #  Known Issues
   If you login Again with different User, You'll see Prefetched Tournaments, I assume its not in reqments
   App Logo Is default No Logo Provided
+  Login Button can be clicked multiple times, I ignored It
