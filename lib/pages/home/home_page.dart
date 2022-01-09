@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:game_tv/components/card.dart';
+import 'package:game_tv/components/tournament_list.dart';
 import 'package:game_tv/pages/login/login_page.dart';
-import 'package:game_tv/provider/tournament_saervice_provider.dart';
 import 'package:game_tv/provider/user_service_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -50,20 +49,8 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          Consumer<TournamentService>(builder: (_, t) {
-            return Flexible(
-              child: ListView.builder(
-                itemBuilder: (ctx, i) {
-                  final tournament = t.getItem(i);
-                  return RecommendedCard(
-                    tournament: tournament,
-                  );
-                },
-                itemCount: t.count,
-              ),
-            );
-          }),
-          SliverToBoxAdapter(child: HS(16))
+          TournamentList(),
+          HS(16)
         ]),
       );
     }));
