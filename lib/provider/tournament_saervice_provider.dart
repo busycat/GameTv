@@ -41,7 +41,9 @@ class HttpTournamentService extends TournamentService {
 
   @override
   Tournament getItem(int i) {
-    return t[i];
+    if (i >= 0 && i < count) return t[i];
+    return Tournament(
+        name: 'Invalid Index', coverUrl: '', gameName: 'Exception');
   }
 
   @override

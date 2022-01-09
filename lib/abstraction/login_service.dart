@@ -18,6 +18,8 @@ final Map<String, UserProfile> _users = {
     token: '1234',
     rating: 2250,
     title: 'Flyingwolf',
+    id: '9898989898',
+    image: 'https://thispersondoesnotexist.com/image',
   ),
   '9876543210': const UserProfile(
     name: 'Dikki  Hanger',
@@ -25,6 +27,8 @@ final Map<String, UserProfile> _users = {
     token: '1234',
     rating: 2250,
     title: 'Flyingwolf',
+    id: '9876543210',
+    image: 'https://thispersondoesnotexist.com/image',
   ),
 };
 

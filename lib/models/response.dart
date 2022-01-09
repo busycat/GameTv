@@ -46,8 +46,8 @@ class Data {
 
 class Tournament {
   Tournament({
-    required this.isCheckInRequired,
-    required this.tournamentId,
+    // required this.isCheckInRequired,
+    // required this.tournamentId,
     // required this.tournamentEnded,
     // required this.tournamentEndDate,
     // required this.areRandomTeamsAllowed,
@@ -96,8 +96,8 @@ class Tournament {
     // required this.winnersCount,
   });
 
-  bool isCheckInRequired;
-  String tournamentId;
+  // bool isCheckInRequired;
+  // String tournamentId;
   // bool tournamentEnded;
   // String tournamentEndDate;
   // bool areRandomTeamsAllowed;
@@ -146,8 +146,8 @@ class Tournament {
   // int winnersCount;
 
   factory Tournament.fromJson(Map<String, dynamic> json) => Tournament(
-        isCheckInRequired: json['is_check_in_required'],
-        tournamentId: json['tournament_id'],
+        // isCheckInRequired: json['is_check_in_required'],
+        // tournamentId: json['tournament_id'],
         // tournamentEnded: json['tournament_ended'],
         // tournamentEndDate: json['tournament_end_date'],
         // areRandomTeamsAllowed: json['are_random_teams_allowed'],
