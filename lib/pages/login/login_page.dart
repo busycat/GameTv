@@ -38,13 +38,13 @@ class _LoginState extends State<Login> {
 
       return SafeArea(
         child: Container(
+          color: Colors.grey,
           padding: EdgeInsets.all(16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                decoration: BoxDecoration(
-                  color: Color(0x00000000),
-                ),
+                padding: EdgeInsets.all(40),
                 child: Image(
                   image: AssetImage('assets/images/game.tv-logo.png'),
                   width: 0.5 * width,
@@ -57,9 +57,16 @@ class _LoginState extends State<Login> {
               TextField(
                 controller: _passwordController,
               ),
-              Text('Error : ' + (userService.error ?? 'None')),
+              if (userService.error?.isNotEmpty ?? false)
+                Text('Error : ' + (userService.error ?? 'None')),
               Text(userService.isAuthenticated ? 'LoggedIn' : 'Not Loggedin'),
-              TextButton(onPressed: onLogin, child: Text('Login'))
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: onLogin,
+                  child: Text('Login'),
+                ),
+              )
             ],
           ),
         ),

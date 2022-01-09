@@ -37,6 +37,7 @@ class UserService with ChangeNotifier {
     // Can do Clear
     sp.remove(loggedInUserKey);
     sp.remove(loggedInPassKey);
+    _user = null;
     await loginService.logout();
     callback();
     // This call tells the widgets that are listening to this model to rebuild.
