@@ -4,6 +4,8 @@ import 'package:game_tv/pages/home/home_page.dart';
 import 'package:game_tv/provider/user_service_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../utils.dart';
+
 class Login extends StatefulWidget {
   static const route = '/login';
 
@@ -14,6 +16,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
+
   final _usernameController =
           TextEditingController(text: credentials.keys.first),
       _passwordController =
@@ -25,20 +29,40 @@ class _LoginState extends State<Login> {
     return Scaffold(
         body: Consumer<UserService>(builder: (context, userService, child) {
       final width = MediaQuery.of(context).size.width;
-
-      onLogin() async {
-        await userService.login(
-          _usernameController.text,
-          _passwordController.text,
-        );
-        if (userService.isAuthenticated) {
-          Navigator.of(context).popAndPushNamed(HomePage.route);
+      userValidator([String? value]) {
+        final val = value ?? _usernameController.text;
+        if (val.length > 12 || val.length < 3) {
+          return 'Username should be 3 to 12 characters.';
         }
+        return null;
+      }
+
+      passValidator([String? value]) {
+        final val = value ?? _passwordController.text;
+        if (val.length > 12 || val.length < 3) {
+          return 'Password should be 3 to 12 characters.';
+        }
+        return null;
+      }
+
+      onLogin() {
+        if (userValidator() == null && passValidator() == null) {
+          return () async {
+            await userService.login(
+              _usernameController.text,
+              _passwordController.text,
+            );
+            if (userService.isAuthenticated) {
+              Navigator.of(context).popAndPushNamed(HomePage.route);
+            }
+          };
+        }
+        return null;
       }
 
       return SafeArea(
         child: Container(
-          color: Colors.grey,
+          // color: Colors.grey,
           padding: EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -50,23 +74,48 @@ class _LoginState extends State<Login> {
                   width: 0.5 * width,
                 ),
               ),
-              Text('Login Page'),
-              TextField(
-                controller: _usernameController,
-              ),
-              TextField(
-                controller: _passwordController,
-              ),
-              if (userService.error?.isNotEmpty ?? false)
-                Text('Error : ' + (userService.error ?? 'None')),
-              Text(userService.isAuthenticated ? 'LoggedIn' : 'Not Loggedin'),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: onLogin,
-                  child: Text('Login'),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(hintText: 'Username'),
+                      validator: userValidator,
+                      controller: _usernameController,
+                      onChanged: (value) {
+                        /// To Trigger Validation, Is there a better approach??
+                        /// Can Have better UX
+                        _formKey.currentState?.validate();
+                        setState(() {});
+                      },
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(hintText: 'Password'),
+                      validator: passValidator,
+                      obscureText: true,
+                      controller: _passwordController,
+                      onChanged: (value) {
+                        /// To Trigger Validation, Is there a better approach??
+                        _formKey.currentState?.validate();
+                        setState(() {});
+                      },
+                    ),
+                    if (userService.error?.isNotEmpty ?? false)
+                      Text(
+                        'Error : ' + (userService.error ?? 'None'),
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    HS(5),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: onLogin(),
+                        child: Text('Login'),
+                      ),
+                    ),
+                  ],
                 ),
-              )
+              ),
             ],
           ),
         ),
