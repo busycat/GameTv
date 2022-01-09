@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_tv/components/app_header.dart';
 import 'package:game_tv/components/card.dart';
 import 'package:game_tv/models/response.dart';
 import 'package:game_tv/pages/login/login_page.dart';
@@ -36,97 +37,107 @@ class HomePage extends StatelessWidget {
                   snapshot.hasData) {
                 final recommendation =
                     recommendationDtoFromJson(snapshot.data!.body);
-                return CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      expandedHeight: 100,
-                      actions: [
-                        TextButton(
-                          child: Text('Logout'),
-                          onPressed: () {
-                            userService.logout(logoutCb);
-                          },
-                        )
-                      ],
-                      title: Text(user.title),
-                      centerTitle: true,
-                      backgroundColor: Colors.white,
-                    ),
-                    SliverToBoxAdapter(
-                      child: Container(
-                          padding: EdgeInsets.all(16),
-                          child: Row(
-                            children: [
-                              ClipOval(
-                                child: Image(
-                                  image: NetworkImage(
-                                      'https://thispersondoesnotexist.com/image'),
-                                  width: 100,
-                                ),
-                              ),
-                              VS(2),
-                              Flexible(
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      userService.username,
-                                      style: TextStyle(fontSize: 32),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    HS(4),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30)),
-                                          border: Border.all(
-                                              color: Colors.primaries.first,
-                                              width: 2)),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            user.rating.toString(),
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w800,
-                                                color: Colors.primaries.first),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Text(
-                                            'Elo Rating',
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )),
-                    ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (a, b) {
-                          final tournament = recommendation.data.tournaments[b];
-                          return RecommendedCard(
-                            tournament: tournament,
-                          );
-                        },
-                        childCount: recommendation.data.tournaments.length,
+                return SafeArea(
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverPersistentHeader(
+                        delegate: AppHeader(user: user),
+                        floating: true,
+                        pinned: true,
                       ),
-                    )
-                  ],
+                      SliverAppBar(
+                        pinned: true,
+                        expandedHeight: 100,
+                        actions: [
+                          TextButton(
+                            child: Text('Logout'),
+                            onPressed: () {
+                              userService.logout(logoutCb);
+                            },
+                          )
+                        ],
+                        title: Text(user.title),
+                        centerTitle: true,
+                        backgroundColor: Colors.white,
+                      ),
+                      SliverToBoxAdapter(
+                        child: Container(
+                            padding: EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                ClipOval(
+                                  child: Image(
+                                    image: NetworkImage(
+                                        'https://thispersondoesnotexist.com/image'),
+                                    width: 100,
+                                  ),
+                                ),
+                                VS(2),
+                                Flexible(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        userService.username,
+                                        style: TextStyle(fontSize: 32),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      HS(4),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(30)),
+                                            border: Border.all(
+                                                color: Colors.primaries.first,
+                                                width: 2)),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              user.rating.toString(),
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w800,
+                                                  color:
+                                                      Colors.primaries.first),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              'Elo Rating',
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (a, b) {
+                            final tournament =
+                                recommendation.data.tournaments[b];
+                            return RecommendedCard(
+                              tournament: tournament,
+                            );
+                          },
+                          childCount: recommendation.data.tournaments.length,
+                        ),
+                      )
+                    ],
+                  ),
                 );
               }
               return Center(
-                child: Text('Loading'),
+                child: CircularProgressIndicator(),
               );
             });
       }),

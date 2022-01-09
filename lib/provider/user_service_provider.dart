@@ -8,7 +8,7 @@ const loggedInUserKey = 'user:id';
 const loggedInPassKey = 'user:pass';
 
 class UserService with ChangeNotifier {
-  User? _user;
+  UserProfile? _user;
   String? error;
   Future<void> login(String user, String password) async {
     error = null;
@@ -47,7 +47,7 @@ class UserService with ChangeNotifier {
   String get username => isAuthenticated
       ? _user!.name
       : throw AppException(error: 'Invalid State', code: 0);
-  User get user => _user!;
+  UserProfile get user => _user!;
   int get age => isAuthenticated
       ? _user!.age
       : throw AppException(error: 'Invalid State', code: 0);

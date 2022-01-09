@@ -13,7 +13,7 @@ class VS extends StatelessWidget {
 }
 
 class HS extends StatelessWidget {
-  final int sp;
+  final double sp;
   const HS(this.sp, {Key? key}) : super(key: key);
 
   @override

@@ -2,7 +2,7 @@ import 'package:game_tv/abstraction/app_exception.dart';
 import 'package:game_tv/models/user.dart';
 
 abstract class LoginService {
-  Future<User> login(String user, String password);
+  Future<UserProfile> login(String user, String password);
   Future<void> logout();
 }
 
@@ -11,15 +11,15 @@ final Map<String, String> credentials = {
   '9876543210': 'password123',
   '9898989898': 'password123',
 };
-final Map<String, User> _users = {
-  '9898989898': const User(
+final Map<String, UserProfile> _users = {
+  '9898989898': const UserProfile(
     name: 'Simon Baker',
     age: 25,
     token: '1234',
     rating: 2250,
     title: 'Flyingwolf',
   ),
-  '9876543210': const User(
+  '9876543210': const UserProfile(
     name: 'Dikki  Hanger',
     age: 22,
     token: '1234',
@@ -30,7 +30,7 @@ final Map<String, User> _users = {
 
 class MockLoginService extends LoginService {
   @override
-  Future<User> login(String user, String password) async {
+  Future<UserProfile> login(String user, String password) async {
     await Future<void>.delayed(Duration(seconds: 1));
     // Check User Exists
     if (credentials.containsKey(user)) {
