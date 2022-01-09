@@ -8,6 +8,7 @@ abstract class TournamentService with ChangeNotifier {
   Tournament getItem(int i);
   int get count;
   bool get isLast;
+  bool get isLoading;
 }
 
 enum _Status { initial, loading, loaded, allLoaded }
@@ -45,4 +46,6 @@ class HttpTournamentService extends TournamentService {
 
   @override
   bool get isLast => status == _Status.allLoaded;
+  @override
+  bool get isLoading => status == _Status.loading;
 }

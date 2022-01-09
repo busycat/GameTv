@@ -50,7 +50,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
           TournamentList(),
-          HS(16)
         ]),
       );
     }));
