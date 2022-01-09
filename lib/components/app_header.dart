@@ -4,7 +4,7 @@ import 'package:game_tv/pages/utils.dart';
 
 class AppHeader extends SliverPersistentHeaderDelegate {
   @override
-  double get maxExtent => 200.0;
+  double get maxExtent => 150.0;
 
   @override
   double get minExtent => 100.0;
@@ -52,31 +52,36 @@ class AppHeader extends SliverPersistentHeaderDelegate {
                       style: TextStyle(fontSize: sizeDynamic(20, 32)),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    HS(sizeDynamic(1, 4)),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          border: Border.all(
-                              color: Colors.primaries.first, width: 2)),
-                      child: Row(
-                        children: [
-                          Text(
-                            user.rating.toString(),
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.primaries.first),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            'Elo Rating',
-                            style: TextStyle(
-                              fontSize: 10,
+                    HS(sizeDynamic(1, 3)),
+                    Opacity(
+                      opacity: (100 - percent) / 100,
+                      alwaysIncludeSemantics: true,
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            border: Border.all(
+                                color: Colors.primaries.first, width: 2)),
+                        child: Row(
+                          children: [
+                            Text(
+                              user.rating.toString(),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.primaries.first),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        ],
+                            Text(
+                              'Elo Rating',
+                              style: TextStyle(
+                                fontSize: 10,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],

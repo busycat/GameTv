@@ -65,7 +65,7 @@ class Tournament {
     // required this.geo,
     // required this.maxLevelId,
     // required this.isPasswordRequired,
-    // required this.name,
+    required this.name,
     // required this.matchStyle,
     // required this.registrationUrl,
     // required this.gamePkg,
@@ -91,7 +91,7 @@ class Tournament {
     // required this.resultSubmissionByAdmin,
     // required this.country,
     // required this.adminUsername,
-    // required this.gameName,
+    required this.gameName,
     // required this.streamUrl,
     // required this.winnersCount,
   });
@@ -115,7 +115,7 @@ class Tournament {
   // String geo;
   // String? maxLevelId;
   // bool isPasswordRequired;
-  // String name;
+  String name;
   // MatchStyle matchStyle;
   // String registrationUrl;
   // dynamic gamePkg;
@@ -141,7 +141,7 @@ class Tournament {
   // bool resultSubmissionByAdmin;
   // String country;
   // String adminUsername;
-  // String gameName;
+  String gameName;
   // String streamUrl;
   // int winnersCount;
 
@@ -165,7 +165,7 @@ class Tournament {
         // geo: json['geo'],
         // maxLevelId: json['max_level_id'] ?? '',
         // isPasswordRequired: json['is_password_required'],
-        // name: json['name'],
+        name: json['name'] ?? 'No Name from API',
         // matchStyle: matchStyleValues.map[json['match_style']],
         // registrationUrl: json['registration_url'],
         // gamePkg: json['game_pkg'],
@@ -191,7 +191,7 @@ class Tournament {
         // resultSubmissionByAdmin: json['result_submission_by_admin'],
         // country: json['country'],
         // adminUsername: json['admin_username'],
-        // gameName: json['game_name'],
+        gameName: json['game_name'] ?? '-',
         // streamUrl: json['stream_url'],
         // winnersCount: json['winners_count'] ?? 0,
       );

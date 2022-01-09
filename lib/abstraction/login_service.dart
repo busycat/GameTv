@@ -28,7 +28,7 @@ final Map<String, UserProfile> _users = {
   ),
 };
 
-class MockLoginService extends LoginService {
+class _MockLoginService extends LoginService {
   @override
   Future<UserProfile> login(String user, String password) async {
     await Future<void>.delayed(Duration(seconds: 1));
@@ -53,4 +53,4 @@ class MockLoginService extends LoginService {
   }
 }
 
-final LoginService loginService = MockLoginService();
+final LoginService loginService = _MockLoginService();

@@ -4,16 +4,13 @@ import 'package:game_tv/components/card.dart';
 import 'package:game_tv/models/response.dart';
 import 'package:game_tv/pages/login/login_page.dart';
 import 'package:game_tv/provider/user_service_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../utils.dart';
 
 class HomePage extends StatelessWidget {
   static const route = '/home';
-  final Future<http.Response> f = http.get(Uri.parse(
-      'https://tournaments-dot-game-tv-prod.uc.r.appspot.com/tournament/api/tournaments_list_v2?limit=10&status=all'));
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +37,7 @@ class HomePage extends StatelessWidget {
                 return SafeArea(
                   child: CustomScrollView(
                     slivers: [
-                      SliverPersistentHeader(
-                        delegate: AppHeader(user: user),
-                        floating: true,
-                        pinned: true,
-                      ),
                       SliverAppBar(
-                        pinned: true,
-                        expandedHeight: 100,
                         actions: [
                           TextButton(
                             child: Text('Logout'),
@@ -60,65 +50,25 @@ class HomePage extends StatelessWidget {
                         centerTitle: true,
                         backgroundColor: Colors.white,
                       ),
+                      SliverPersistentHeader(
+                        delegate: AppHeader(user: user),
+                        floating: true,
+                        pinned: true,
+                      ),
                       SliverToBoxAdapter(
                         child: Container(
-                            padding: EdgeInsets.all(16),
-                            child: Row(
-                              children: [
-                                ClipOval(
-                                  child: Image(
-                                    image: NetworkImage(
-                                        'https://thispersondoesnotexist.com/image'),
-                                    width: 100,
-                                  ),
-                                ),
-                                VS(2),
-                                Flexible(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        userService.username,
-                                        style: TextStyle(fontSize: 32),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      HS(4),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(30)),
-                                            border: Border.all(
-                                                color: Colors.primaries.first,
-                                                width: 2)),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              user.rating.toString(),
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w800,
-                                                  color:
-                                                      Colors.primaries.first),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Text(
-                                              'Elo Rating',
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                              ),
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 10,
+                          ),
+                          child: Text(
+                            'Recommended for you',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                       ),
                       SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -131,6 +81,9 @@ class HomePage extends StatelessWidget {
                           },
                           childCount: recommendation.data.tournaments.length,
                         ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: HS(16),
                       )
                     ],
                   ),
