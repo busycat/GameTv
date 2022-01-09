@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_tv/pages/index.dart';
+import 'package:game_tv/provider/tournament_saervice_provider.dart';
 import 'package:game_tv/provider/user_service_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +8,9 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => UserService()),
+      ChangeNotifierProvider<TournamentService>(
+        create: (context) => HttpTournamentService(),
+      ),
     ],
     child: const MyApp(),
   ));
