@@ -17,11 +17,13 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
-
+  bool isDirty = false;
   final _usernameController =
-          TextEditingController(text: credentials.keys.first),
+          // TextEditingController(text: credentials.keys.first),
+          TextEditingController(),
       _passwordController =
-          TextEditingController(text: credentials.values.first);
+          // TextEditingController(text: credentials.values.first);
+          TextEditingController();
 
   // This widget is the root of your application.
   @override
@@ -57,6 +59,14 @@ class _LoginState extends State<Login> {
             }
           };
         }
+        if (!isDirty) {
+          return () {
+            _formKey.currentState?.validate();
+            setState(() {
+              isDirty = true;
+            });
+          };
+        }
         return null;
       }
 
@@ -83,10 +93,10 @@ class _LoginState extends State<Login> {
                       validator: userValidator,
                       controller: _usernameController,
                       onChanged: (value) {
-                        /// To Trigger Validation, Is there a better approach??
-                        /// Can Have better UX
-                        _formKey.currentState?.validate();
                         setState(() {});
+                        if (isDirty) {
+                          _formKey.currentState?.validate();
+                        }
                       },
                     ),
                     TextFormField(
@@ -95,17 +105,19 @@ class _LoginState extends State<Login> {
                       obscureText: true,
                       controller: _passwordController,
                       onChanged: (value) {
-                        /// To Trigger Validation, Is there a better approach??
-                        _formKey.currentState?.validate();
                         setState(() {});
+                        if (isDirty) {
+                          _formKey.currentState?.validate();
+                        }
                       },
                     ),
+                    HS(3),
                     if (userService.error?.isNotEmpty ?? false)
                       Text(
-                        'Error : ' + (userService.error ?? 'None'),
+                        userService.error!,
                         style: TextStyle(color: Colors.red),
                       ),
-                    HS(5),
+                    HS(3),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
